@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import errorHandler from "./middlewares/error.middleware.js";
+import ApiResponse from "./utils/ApiResponse.js";
 
 const app: Application = express();
 
@@ -18,10 +19,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get("/api/health", (_req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "DevForge API is running",
-  });
+  res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        environment: env.NODE_ENV,
+        timestamp: new Date().toISOString(),
+      },
+      "DevForge API is running",
+    ),
+  );
 });
 
 app.use(errorHandler);
