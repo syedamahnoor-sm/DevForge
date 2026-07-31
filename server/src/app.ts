@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import errorHandler from "./middlewares/error.middleware.js";
 import ApiResponse from "./utils/ApiResponse.js";
+import notFoundHandler from "./middlewares/notFound.middleware.js";
 
 const app: Application = express();
 
@@ -31,6 +32,7 @@ app.get("/api/health", (_req, res) => {
   );
 });
 
+app.use(notFoundHandler);
 app.use(errorHandler);
 
 export default app;
